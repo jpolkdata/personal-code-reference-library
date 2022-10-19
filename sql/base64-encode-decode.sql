@@ -5,7 +5,7 @@
 --Encode the string "TestData" in Base64 to get "VGVzdERhdGE="
 SELECT
     CAST(N'' AS XML).value(
-          'xs:base64Binary(xs:hexBinary(sql:column("bin")))'
+        'xs:base64Binary(xs:hexBinary(sql:column("bin")))'
         , 'VARCHAR(MAX)'
     )   Base64Encoding
 FROM (SELECT CAST('TestData' AS VARBINARY(MAX)) AS bin) AS bin_sql_server_temp;

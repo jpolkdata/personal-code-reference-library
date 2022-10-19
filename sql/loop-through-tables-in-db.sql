@@ -18,9 +18,9 @@ ORDER BY 1
 --NOTE: you'll need to paste the results of the query above into the CTE below. This could be better automated.
 ;With p AS
 (
-        SELECT 'Allergies' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_Allergies WHERE uid = 123456 UNION 
-        SELECT 'contacts' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_contacts WHERE pid = 123456 UNION 
-        SELECT 'diagnosis' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_diagnosis WHERE uid = 123456 
+    SELECT 'Allergies' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_Allergies WHERE uid = 123456 UNION 
+    SELECT 'contacts' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_contacts WHERE pid = 123456 UNION 
+    SELECT 'diagnosis' AS TableName, 'patid' AS ColumnName, COUNT(*) as cnt FROM AM_vt_diagnosis WHERE uid = 123456 
 )
 SELECT 'SELECT * FROM ' + TableName + ' WHERE ' + ColumnName + ' = 123456'
 FROM p WHERE cnt > 0 

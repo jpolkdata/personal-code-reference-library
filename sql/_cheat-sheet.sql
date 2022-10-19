@@ -1,9 +1,9 @@
 
 /* Search within stored proc definitions */
 SELECT DISTINCT
- o.name AS Object_Name
-,o.type_desc
-,m.definition
+    o.name AS Object_Name
+    ,o.type_desc
+    ,m.definition
 FROM sys.sql_modules m
 INNER JOIN sys.objects o
 ON m.object_id = o.object_id
@@ -28,10 +28,10 @@ SUBSTRING(CONVERT(VARCHAR,[DateField],112),0,5) + '-' + SUBSTRING(CONVERT(VARCHA
 
 /* Calculate the estimated runtime between two timestamps*/
 SELECT
-        CASE
-                WHEN (ISDATE(EarliestStart) = 1 AND ISDATE(LatestEnd) = 1) THEN CONVERT(VARCHAR(12), DATEADD(MS, DATEDIFF(MS, EarliestStart, LatestEnd), 0), 114)
-                ELSE NULL
-        END AS EstRuntime
+    CASE
+        WHEN (ISDATE(EarliestStart) = 1 AND ISDATE(LatestEnd) = 1) THEN CONVERT(VARCHAR(12), DATEADD(MS, DATEDIFF(MS, EarliestStart, LatestEnd), 0), 114)
+        ELSE NULL
+    END AS EstRuntime
 FROM [TABLE]
 
 /* Force a query error */
@@ -74,10 +74,10 @@ DBCC opentran
 
 --Parse a concatenated field into its individual parts using XML
 SELECT 
-         sourceVisitID
-        ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[1]','varchar(100)') AS [Enterprise ID]
-        ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[2]','varchar(100)') AS [Initial Report Date]
-        ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[3]','varchar(100)') AS [Admit Date]
+    sourceVisitID
+    ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[1]','varchar(100)') AS [Enterprise ID]
+    ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[2]','varchar(100)') AS [Initial Report Date]
+    ,CONVERT(XML,'<x><y>' + REPLACE(sourceVisitID,'|', '</y><y>') + '</y></x>').value('/x[1]/y[3]','varchar(100)') AS [Admit Date]
 ,VisitID
 ,PatientID
 FROM DBNAME.dbo.Visits 
@@ -85,9 +85,9 @@ FROM DBNAME.dbo.Visits
 /* Remove duplicate rows from a table */
 WITH x AS
 (
-        SELECT col1, col2,
-        ROW_NUMBER() OVER (PARTITION BY col1, col2 ORDER BY col1) AS rn
-        FROM Youtable
+    SELECT col1, col2,
+    ROW_NUMBER() OVER (PARTITION BY col1, col2 ORDER BY col1) AS rn
+    FROM Youtable
 )
 DELETE
 FROM x
@@ -110,18 +110,18 @@ FROM (VALUES
 /* What are the top x values (by record count) from a given column? */
 WITH medhx AS
 (
-        SELECT 
-            source_id, 
-            patient_hx_type, 
-            patient_hx_codeset, 
-            patient_hx_code, 
-            patient_hx_description, 
-            COUNT(DISTINCT record_id) AS cnt, 
-            RANK() OVER (PARTITION BY source_id, patient_hx_type, patient_hx_codeset ORDER BY COUNT(*) DESC) AS coderank
-        FROM PATIENT_HX
-        WHERE patient_hx_type = 'Medical'
-        GROUP BY source_id, patient_hx_type, patient_hx_codeset, patient_hx_code, patient_hx_description
-        ORDER BY 1,2,3,6 DESC
+    SELECT 
+        source_id, 
+        patient_hx_type, 
+        patient_hx_codeset, 
+        patient_hx_code, 
+        patient_hx_description, 
+        COUNT(DISTINCT record_id) AS cnt, 
+        RANK() OVER (PARTITION BY source_id, patient_hx_type, patient_hx_codeset ORDER BY COUNT(*) DESC) AS coderank
+    FROM PATIENT_HX
+    WHERE patient_hx_type = 'Medical'
+    GROUP BY source_id, patient_hx_type, patient_hx_codeset, patient_hx_code, patient_hx_description
+    ORDER BY 1,2,3,6 DESC
 )
 SELECT source_id, patient_hx_type, patient_hx_codeset, patient_hx_code, patient_hx_description, cnt, coderank
 FROM medhx

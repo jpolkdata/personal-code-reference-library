@@ -31,10 +31,10 @@ FROM #Temp
     ,s.y.value('.', 'VARCHAR(100)') AS Data  
  FROM  
  (
-     SELECT 
+    SELECT 
         SomeID  
         ,CAST ('<Y>' + REPLACE((SELECT MedCodes AS [data()] FOR XML PATH('')) , '|', '</Y><Y>') + '</Y>' AS XML) AS Data
-     FROM #Temp
+    FROM #Temp
  ) AS y 
  CROSS APPLY Data.nodes ('/Y') AS s(y); 
  
