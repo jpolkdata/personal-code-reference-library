@@ -20,34 +20,38 @@ UNPIVOT
     Pivot a column
     https://www.sqlservertutorial.net/sql-server-basics/sql-server-pivot/
 **************************************************************************************************************************************************/
-SELECT 
-    'Patient Attributions Per Payer' AS DataType,
-    MonthYear, 
-    FORMAT([Aetna],'#,#0') AS [Aetna],
-    FORMAT([Blue Cross Blue Shield],'#,#0') AS [BCBS],
-    FORMAT([East Texas BCBS],'#,#0') AS [Strive BCBS],
-    FORMAT([Cigna],'#,#0') AS [Cigna],
-    FORMAT([United],'#,#0') AS [United]
-FROM  
+DROP TABLE IF EXISTS #pat_phones;
+CREATE TABLE #pat_phones
 (
-    SELECT 
-        ds.[Name] AS DataSourceName
-        ,d.MonthYear
-        ,pa.PatientAttributionID
-    FROM [dbo].[PatientAttributions] pa WITH (NOLOCK)
-    JOIN [DwKernel].dbo.DataSources ds WITH (NOLOCK) ON ds.DataSourceID = pa.DataSourceID
-        AND ds.DataWarehouseDatabase LIKE 'DW%'
-    FULL OUTER JOIN [DWKernel].[dbo].[Dates] d WITH (NOLOCK) ON d.date = pa.AttributionBeginDate
-    WHERE YEAR(d.[Date]) IN(2020)
-) AS src  
-PIVOT  
-(  
-    COUNT(PatientAttributionID)
-    FOR DataSourceName IN (
-        [Aetna]
-        ,[Blue Cross Blue Shield]
-        ,[East Texas BCBS]
-        ,[Cigna]
-        ,[United])  
-) AS piv  
-ORDER BY CAST(MonthYear AS DATE)
+	patient_id INT
+	,number VARCHAR(10)
+	,phonetype VARCHAR(25)
+)
+
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(11111,'1234567890','Mobile')
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(22222,'4444444444','Mobile')
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(22222,'1111111111','Home')
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(22222,'2222222222','Work')
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(22222,'3333333333','Main')
+INSERT INTO #pat_phones(patient_id,number,phonetype) VALUES(33333,'4445558888','Main')
+
+SELECT
+	'Patient Phone Numbers' AS Detail
+	,patient_id
+	,[Home]
+	,[Mobile]
+	,[Main]
+	,[Work]
+FROM (
+	SELECT patient_id, number, phonetype
+	FROM #pat_phones
+	WHERE phonetype IN('Home','Mobile','Main','Work')
+) src
+PIVOT
+(
+	MAX(number)
+	FOR phonetype IN([Home],[Mobile],[Main],[Work])
+) AS piv
+ORDER BY patient_id;
+
+DROP TABLE IF EXISTS #pat_phones;
