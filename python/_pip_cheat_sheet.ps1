@@ -23,6 +23,9 @@ as in 'wheels of cheese'.
 # show installed packages and their version
 pip list
 
+# generate a list of installed packages to a requirements file
+pip freeze > requirements.txt
+
 # find detailed info on the installed package
 pip show PACKAGE_NAME
 
