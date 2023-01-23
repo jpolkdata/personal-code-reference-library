@@ -1,3 +1,7 @@
+"""
+    Given an S3 bucket name, return a list of all file names within that bucket
+"""
+
 import os, boto3
 from dotenv import load_dotenv
 load_dotenv() #load environment variables (AWS access key and secret) from local .env file
