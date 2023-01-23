@@ -1,21 +1,28 @@
+# The steps below are for linux
+
 # generate the virtual environment file within the project folder
-python -m venv .venv
+python3 -m venv venv 
 
 # activate the virtual env
-.\.venv\Scripts\activate
+source /venv/bin/activate
 
 # check the installed package versions inside the venv
-python -V
+python3 -V
 pip -V
 
 # get a listing of just the packages that are installed in the venv
-python -m pip list
+python3 -m pip list
 
 # generate a requirments file
-python -m pip freeze
+python3 -m pip freeze
 
 # install the requirements from that file (for someone else opening this project)
-python -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 # deactivate the venv
 deactivate
+
+
+# If using windows then make a few adjustments to these commands:
+python -m venv venv       #create the env
+.\.venv\Scripts\activate  #activate
