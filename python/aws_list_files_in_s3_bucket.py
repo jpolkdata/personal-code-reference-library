@@ -20,7 +20,7 @@ def get_s3_files(bucket_name):
     return file_list
 
 if __name__ == '__main__':
-    bucket_name='jpolkdata-spotify-data'
+    bucket_name='BUCKET_NAME'
 
     s3 = get_s3()
 
