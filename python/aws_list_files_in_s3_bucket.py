@@ -1,6 +1,3 @@
-"""
-    Given an S3 bucket name, return a list of all file names within that bucket
-"""
 import os, boto3
 from dotenv import load_dotenv
 
@@ -17,7 +14,20 @@ if __name__ == '__main__':
         aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")    #specified in .env file
     )
    
-   # List out the keys (file names) in the data bucket
-    bucket_obj = s3.Bucket('jpolkdata-spotify-data')
-    for file in list(bucket_obj.objects.all()): 
-        print(file.key)
+   # Iterate through the keys (files) in the data bucket and retrieve file metadata
+    bucket = s3.Bucket('jpolkdata-spotify-data')
+    for obj in list(bucket.objects.all()): 
+        
+        file_details={}
+
+        # The 'obj' is an ObjectSummary, it only has a few datapoints
+        file_details['key']=obj.key
+        file_details['storage_class']=obj.storage_class
+        file_details['last_modified']=obj.last_modified.strftime('%Y%m%d_%H%M%S')
+
+        # Get additional details by accessing the Object() sub-resource
+        # available options - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#object
+        file_details['content_length']=obj.Object().content_length
+        file_details['e_tag']=obj.Object().e_tag
+
+        print(file_details)
