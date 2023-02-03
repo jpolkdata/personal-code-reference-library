@@ -1,10 +1,10 @@
 # The steps below are for linux
 
 # generate the virtual environment file within the project folder
-python3 -m venv venv 
+python3 -m venv .venv 
 
 # activate the virtual env
-source /venv/bin/activate
+source /.venv/bin/activate
 
 # check the installed package versions inside the venv
 python3 -V
@@ -24,5 +24,5 @@ deactivate
 
 
 # If using windows then make a few adjustments to these commands:
-python -m venv venv       #create the env
+python -m venv .venv       #create the env
 .\.venv\Scripts\activate  #activate
