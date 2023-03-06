@@ -1,13 +1,15 @@
 
 /* Search within stored proc definitions */
 SELECT DISTINCT
-    o.name AS Object_Name
-    ,o.type_desc
-    ,m.definition
+	DB_NAME() AS DatabaseName
+    ,o.[Name] AS [Object_Name]
+    ,m.[Definition]
 FROM sys.sql_modules m
-INNER JOIN sys.objects o
+JOIN sys.objects o
 ON m.object_id = o.object_id
-WHERE m.definition like '%mpi%'
+WHERE m.[Definition] like '%mpi%'
+AND o.[Type_Desc] = 'SQL_STORED_PROCEDURE'
+ORDER BY 1, 2
 
 /* See when db objects were last modified */
 SELECT type, name, create_date, modify_date 
