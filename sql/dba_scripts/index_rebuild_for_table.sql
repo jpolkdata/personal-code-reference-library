@@ -1,7 +1,7 @@
 /**************************************************************************************************************************************************
 	Rebuild all indexes for a given table that have fragmentation over a specific %
 **************************************************************************************************************************************************/
-DECLARE @tableName varchar(100) = 'TableName'
+DECLARE @tableName varchar(100) = 'Receivables'
 DECLARE @indexName varchar(100)
 DECLARE @avgFragmentation float
 DECLARE @sql nvarchar(max)
