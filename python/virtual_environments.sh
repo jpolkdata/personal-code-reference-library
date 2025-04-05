@@ -1,28 +1,22 @@
-# The steps below are for linux
+# Create and activate the venv (Linux)
+py -m venv .venv 
+source /.venv/bin/activate 
 
-# generate the virtual environment file within the project folder
-python3 -m venv .venv 
-
-# activate the virtual env
-source /.venv/bin/activate
+# Create and activate the venv (Windows)
+py -m venv .venv
+.\.venv\Scripts\activate
 
 # check the installed package versions inside the venv
-python3 -V
+py -V
 pip -V
 
-# get a listing of just the packages that are installed in the venv
-python3 -m pip list
+# upgrade the python version in your venv (i.e. from 3.9 to 3.13)
+py -3.13 -m venv --upgrade .venv        
 
-# generate a requirments file
-python3 -m pip freeze > requirements.txt
-
-# install the requirements from that file (for someone else opening this project)
-python3 -m pip install -r requirements.txt
+# working with requirements
+py -m pip list # view the installed packages
+py -m pip freeze > requirements.txt # generate a requirements file
+py -m pip install -r requirements.txt # install the requirements
 
 # deactivate the venv
 deactivate
-
-
-# If using windows then make a few adjustments to these commands:
-python -m venv .venv       #create the env
-.\.venv\Scripts\activate  #activate
