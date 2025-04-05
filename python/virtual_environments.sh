@@ -14,7 +14,7 @@ pip -V
 python3 -m pip list
 
 # generate a requirments file
-python3 -m pip freeze
+python3 -m pip freeze > requirements.txt
 
 # install the requirements from that file (for someone else opening this project)
 python3 -m pip install -r requirements.txt
