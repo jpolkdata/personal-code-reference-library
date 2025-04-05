@@ -1,10 +1,9 @@
-# Create and activate the venv (Linux)
+# Create a new virtual environment
 py -m venv .venv 
-source /.venv/bin/activate 
 
-# Create and activate the venv (Windows)
-py -m venv .venv
-.\.venv\Scripts\activate
+# Activate the virtual environment
+source /.venv/bin/activate #Linux
+.\.venv\Scripts\activate #Windows
 
 # check the installed package versions inside the venv
 py -V
